@@ -1,4 +1,4 @@
-//het_gokcandemiralp 03-08-21
+//het_gokcandemiralp 04-08-21
 #ifndef __CPATH_H__
 #define __CPATH_H__
 
@@ -13,7 +13,7 @@ using namespace std;
 using namespace cv;
 
 
-void printPoints(vector<Point> vec);
+void leftMostPoint(vector<Point>& vec);
 
 vector<Point> closest(vector<Point> vec);
 
