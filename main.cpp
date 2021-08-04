@@ -1,11 +1,12 @@
-//het_gokcandemiralp 03-08-21
+//het_gokcandemiralp 04-08-21
 #include "cpath.h"
+#include "accessories.h"
 
 
 
 int main() {
 
-    vector<Point> vec = {Point(1,1),Point(3,4) ,Point(10,7) ,Point(5,5) ,Point(15,8) ,Point(2,2) };
+    vector<Point> vec = randomPoints(1, 11, 7);
     printPoints(closest(vec));
     return 0;
 }
