@@ -1,10 +1,18 @@
-//het_gokcandemiralp 03-08-21
+//het_gokcandemiralp 04-08-21
 #include "cpath.h"
 
-void printPoints(vector<Point> vec) {
+void leftMostPoint(vector<Point> &vec) {
+	int temp = 0;
+	int smallest = INT_MAX;
+	vector<Point>::iterator swapment;
+	Point tempPoint;
 	for (vector<Point>::iterator i = vec.begin(); i != vec.end(); ++i) {
-		cout << "["<< (*i).x << ","<< (*i).y << "]"<< " , ";
+		temp = (((*i).x) * ((*i).x)) + (((*i).y) * ((*i).y));
+		if(smallest > temp) { smallest = temp; swapment = i; }
 	}
+	tempPoint = *(vec.begin());
+	*(vec.begin()) = *swapment;
+	*swapment = tempPoint;
 }
 
 
@@ -13,6 +21,7 @@ vector<Point> closest(vector<Point> vec) {
 	int temp;
 	Point tempPoint;
 	vector<Point>::iterator swapment;
+	leftMostPoint(vec);
 	for (vector<Point>::iterator i = vec.begin(); i != vec.end() && (i + 1) != vec.end() ; ++i, smallest = INT_MAX) {
 		for (vector<Point>::iterator j = i; j != vec.end() && (j + 1) != vec.end(); ++j) {
 			vector<Point>::iterator a = i;
