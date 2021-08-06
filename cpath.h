@@ -12,6 +12,7 @@
 using namespace std;
 using namespace cv;
 
+bool doesIntersect(Point A1, Point A2, Point B1, Point B2);
 
 void leftMostPoint(vector<Point>& vec);
 
