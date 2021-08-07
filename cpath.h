@@ -1,4 +1,4 @@
-//het_gokcandemiralp 04-08-21
+//het_gokcandemiralp 07-08-21
 #ifndef __CPATH_H__
 #define __CPATH_H__
 
@@ -11,6 +11,10 @@
 
 using namespace std;
 using namespace cv;
+
+bool onSegment(Point p, Point q, Point r);
+
+int orientation(Point p, Point q, Point r);
 
 bool doesIntersect(Point A1, Point A2, Point B1, Point B2);
 
