@@ -1,13 +1,44 @@
-//het_gokcandemiralp 06-08-21
+//het_gokcandemiralp 07-08-21
 #include "cpath.h"
 
-bool doesIntersect(Point A1, Point A2, Point B1, Point B2) {
-	int AX1, AX2, BX1, BX2, AY1, AY2, BY1, BY2;
-	(A1.x < A2.x) ? (AX1 = A1.x, AX2 = A2.x) : (AX1 = A2.x, AX2 = A1.x); //normalizing the input
-	(B1.x < B2.x) ? (BX1 = B1.x, BX2 = B2.x) : (BX1 = B2.x, BX2 = B1.x);
-	(A1.y < A2.y) ? (AY1 = A1.y, AY2 = A2.y) : (AY1 = A2.y, AY2 = A1.y);
-	(B1.y < B2.y) ? (BY1 = B1.y, BY2 = B2.y) : (BY1 = B2.y, BY2 = B1.y);
-	return (AX1 <= BX2 && BX1 <= AX2 && AY1 <= BY2 && BY1 <= AY2);
+bool onSegment(Point p, Point q, Point r){
+	if (q.x < max(p.x, r.x) && q.x > min(p.x, r.x) &&
+		q.y < max(p.y, r.y) && q.y > min(p.y, r.y))
+		return true;
+
+	return false;
+}
+
+int orientation(Point p, Point q, Point r){
+	int val = (q.y - p.y) * (r.x - q.x) -
+		(q.x - p.x) * (r.y - q.y);
+
+	if (val == 0) return 0;
+
+	return (val > 0) ? 1 : 2;
+}
+
+bool doesIntersect(Point p1, Point q1, Point p2, Point q2)
+{
+	int o1 = orientation(p1, q1, p2);
+	int o2 = orientation(p1, q1, q2);
+	int o3 = orientation(p2, q2, p1);
+	int o4 = orientation(p2, q2, q1);
+
+	if (p1 == p2 || p1 == q2 || q1 == p2 || q1 == q2) { ; }
+
+	else if (o1 != o2 && o3 != o4)
+		return true;
+
+
+	return ((o1 == 0 && onSegment(p1, p2, q1)) ||
+
+		    (o2 == 0 && onSegment(p1, q2, q1)) ||
+
+		    (o3 == 0 && onSegment(p2, p1, q2)) ||
+
+		    (o4 == 0 && onSegment(p2, q1, q2)));
+
 }
 
 void leftMostPoint(vector<Point> &vec) {
@@ -39,9 +70,13 @@ vector<Point> closest(vector<Point> vec) {
 			temp = (((*a).x - (*b).x) * ((*a).x - (*b).x)) + (((*a).y - (*b).y) * ((*a).y - (*b).y));
 			if (smallest > temp) { smallest = temp; swapment = b; }
 		}
-		for (vector<Point>::iterator k = vec.begin() ; k != i && size > 1 &&i != (vec.begin()+1); ++k) {
-			cout << doesIntersect(*k, *(k + 1), *i, *swapment);
+		for (vector<Point>::iterator k = vec.begin() ; k != i ; ++k) {
+			cout << "[" << (*k).x << " , "  << (*k).y << "]"
+				 << "[" << (*(k + 1)).x << " , " << (*(k + 1)).y << "]"
+				 << "[" << (*i).x << " , " << (*i).y << "]"
+				 << "[" << (*swapment).x << " , " << (*swapment).y << "]   ";
 		}
+		cout << "\n";
 		if ((i + 1) != vec.end()) {
 			tempPoint = *(i + 1);
 			*(i + 1) = *swapment;
