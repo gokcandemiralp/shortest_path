@@ -55,15 +55,34 @@ void leftMostPoint(vector<Point> &vec) {
 	*swapment = tempPoint;
 }
 
+void closestPoint(vector<Point>::iterator a, vector<Point>& vec) {
+	int temp = 0;
+	int smallest = INT_MAX;
+	vector<Point>::iterator swapment;
+	Point tempPoint1 , tempPoint2;
+	for (vector<Point>::iterator i = vec.begin(); i != a; ++i) {
+		temp = (((*i).x - (*a).x) * ((*i).x - (*a).x)) + (((*i).y - (*a).y) * ((*i).y - (*a).y));
+		if (smallest > temp) { smallest = temp; swapment = i; }
+	}
+	tempPoint1 = *a;
+	for (vector<Point>::iterator i = (swapment + 1); i != vec.end(); ++i) {
+		tempPoint2 = *i;
+		*i = tempPoint1;
+		tempPoint1 = tempPoint2;
+		if (i == a) { break; }
+	}
+	
+}
 
 vector<Point> closest(vector<Point> vec) {
 	int smallest = INT_MAX;
 	int temp;
 	int size = vec.size();
+	bool condition = false;
 	Point tempPoint;
 	vector<Point>::iterator swapment;
 	leftMostPoint(vec);
-	for (vector<Point>::iterator i = vec.begin(); i != vec.end() && (i + 1) != vec.end() ; ++i, smallest = INT_MAX) {
+	for (vector<Point>::iterator i = vec.begin(); i != vec.end() && (i + 1) != vec.end() ; ++i, smallest = INT_MAX, condition = false) {
 		for (vector<Point>::iterator j = i; j != vec.end() && (j + 1) != vec.end(); ++j) {
 			vector<Point>::iterator a = i;
 			vector<Point>::iterator b = (j + 1);
@@ -71,16 +90,15 @@ vector<Point> closest(vector<Point> vec) {
 			if (smallest > temp) { smallest = temp; swapment = b; }
 		}
 		for (vector<Point>::iterator k = vec.begin() ; k != i ; ++k) {
-			cout << "[" << (*k).x << " , "  << (*k).y << "]"
-				 << "[" << (*(k + 1)).x << " , " << (*(k + 1)).y << "]"
-				 << "[" << (*i).x << " , " << (*i).y << "]"
-				 << "[" << (*swapment).x << " , " << (*swapment).y << "]   ";
+			if (doesIntersect(*k, *(k + 1), *i, *swapment)) { condition = true; }
 		}
-		cout << "\n";
 		if ((i + 1) != vec.end()) {
 			tempPoint = *(i + 1);
 			*(i + 1) = *swapment;
 			*swapment = tempPoint;
+		}
+		if (condition) {
+			closestPoint((i+1), vec);
 		}
 	}
 	return vec;
