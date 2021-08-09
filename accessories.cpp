@@ -1,4 +1,4 @@
-//het_gokcandemiralp 05-08-21
+//het_gokcandemiralp 09-08-21
 #include "accessories.h"
 
 float totalDistance(vector<Point> vec){
@@ -17,6 +17,15 @@ vector<Point> randomPoints(int low,int up,int n) {
 	vector<Point> vec;
 	for (int i = 0;i<n;++i) {
 		vec.push_back(Point((rand() % (up - low) + low), (rand() % (up - low) + low)));
+	}
+	for (int i = 0; i < n; ++i) { // eliminates same points
+		for (int j = 0; j < n; ++j) {
+			if ( i!=j && vec[i] == vec[j] ) { 
+				++(vec[i].x); 
+				++(vec[i].y);
+				j = 0;
+			}
+		}
 	}
 	return vec;
 }
