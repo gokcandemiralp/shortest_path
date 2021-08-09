@@ -1,4 +1,4 @@
-//het_gokcandemiralp 07-08-21
+//het_gokcandemiralp 09-08-21
 #ifndef __CPATH_H__
 #define __CPATH_H__
 
@@ -24,5 +24,6 @@ void closestPoint(vector<Point>::iterator a, vector<Point>& vec);
 
 vector<Point> closest(vector<Point> vec);
 
+void michelangelo(Mat drawing, vector<Point> vec);
 
 #endif
