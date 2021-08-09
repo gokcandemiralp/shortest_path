@@ -1,4 +1,4 @@
-//het_gokcandemiralp 07-08-21
+//het_gokcandemiralp 09-08-21
 #include "cpath.h"
 
 bool onSegment(Point p, Point q, Point r){
@@ -102,4 +102,14 @@ vector<Point> closest(vector<Point> vec) {
 		}
 	}
 	return vec;
+}
+
+void michelangelo(Mat drawing, vector<Point> vec) {
+	Point a = Point(0,0);
+	for (vector<Point>::iterator i = vec.begin(); i!=vec.end() ; ++i) {
+		Point b = (*i);
+		line(drawing, Point(a.x * 50, a.y * 50), Point(b.x * 50, b.y * 50),Scalar(155, 155, 155),2, LINE_8);
+		circle(drawing, Point(b.x * 50, b.y * 50), 5, Scalar(35, 35, 235), FILLED, LINE_8);
+		a = b;
+	}
 }
