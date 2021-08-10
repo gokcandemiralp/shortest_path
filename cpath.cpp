@@ -1,4 +1,4 @@
-//het_gokcandemiralp 09-08-21
+//het_gokcandemiralp 10-08-21
 #include "cpath.h"
 
 bool onSegment(Point p, Point q, Point r){
@@ -64,14 +64,22 @@ void closestPoint(vector<Point>::iterator a, vector<Point>& vec) {
 		temp = (((*i).x - (*a).x) * ((*i).x - (*a).x)) + (((*i).y - (*a).y) * ((*i).y - (*a).y));
 		if (smallest > temp) { smallest = temp; swapment = i; }
 	}
-	tempPoint1 = *a;
-	for (vector<Point>::iterator i = (swapment + 1); i != vec.end(); ++i) {
-		tempPoint2 = *i;
-		*i = tempPoint1;
-		tempPoint1 = tempPoint2;
-		if (i == a) { break; }
+	if((swapment + 1)!=a){
+		tempPoint1 = *a;
+		for (vector<Point>::iterator i = (swapment + 1); i != vec.end(); ++i) {
+			tempPoint2 = *i;
+			*i = tempPoint1;
+			tempPoint1 = tempPoint2;
+			if (i == a) { break; }
+		}
+		for (vector<Point>::iterator k = vec.begin(); (k + 1) != vec.end() && k != a; ++k) {
+			if (doesIntersect(*k, *(k + 1), *swapment, *a)) { closestPoint(a, vec); break; }
+		}
+
+		for (vector<Point>::iterator k = vec.begin(); a != vec.end() && (a + 1) != vec.end() && k != a; ++k) {
+			if (doesIntersect(*k, *(k + 1), *a, *(a + 1))) { closestPoint((a + 1), vec); break; }
+		}
 	}
-	
 }
 
 vector<Point> closest(vector<Point> vec) {
