@@ -55,23 +55,58 @@ void leftMostPoint(vector<Point> &vec) {
 	*swapment = tempPoint;
 }
 
+bool distanceCompare(vector<Point> vec, int swapment, int n) {
+	Point a , b, tempPoint1, tempPoint2;
+	int i;
+	int size = vec.size();
+	float ans1 = 0;
+	float ans2 = 0;
+
+	for (a = Point(0, 0), i = 0; i != size; ++i) { //testing without the intersection correction
+		b = vec[i];
+		ans1 += sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)));
+		a = b;
+		if (i == n) { break; }
+	}
+	for (tempPoint1 = vec[n], i = (swapment + 1); i != size; ++i) { //doing the intersection correction
+		tempPoint2 = vec[i];
+		vec[i] = tempPoint1;
+		tempPoint1 = tempPoint2;
+		if (i == n) { break; }
+	}
+	for (a = Point(0, 0), i = 0; i != size; ++i) { //testing with the intersection correction
+		b = vec[i];
+		ans2 += sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)));
+		a = b;
+		if (i == n) { break; }
+	}
+
+	return (ans2 < ans1);
+}
+
+void vecInsert(vector<Point>& vec, vector<Point>::iterator swapment, vector<Point>::iterator a) {
+	Point tempPoint1, tempPoint2;
+	tempPoint1 = *a;
+	for (vector<Point>::iterator i = (swapment + 1); i != vec.end(); ++i) {
+		tempPoint2 = *i;
+		*i = tempPoint1;
+		tempPoint1 = tempPoint2;
+		if (i == a) { break; }
+	}
+}
+
 void closestPoint(vector<Point>::iterator a, vector<Point>& vec) {
 	int temp = 0;
 	int smallest = INT_MAX;
 	vector<Point>::iterator swapment;
-	Point tempPoint1 , tempPoint2;
 	for (vector<Point>::iterator i = vec.begin(); i != a; ++i) {
 		temp = (((*i).x - (*a).x) * ((*i).x - (*a).x)) + (((*i).y - (*a).y) * ((*i).y - (*a).y));
 		if (smallest > temp) { smallest = temp; swapment = i; }
 	}
-	if((swapment + 1)!=a){
-		tempPoint1 = *a;
-		for (vector<Point>::iterator i = (swapment + 1); i != vec.end(); ++i) {
-			tempPoint2 = *i;
-			*i = tempPoint1;
-			tempPoint1 = tempPoint2;
-			if (i == a) { break; }
-		}
+	if((swapment + 1)!=a && distanceCompare(vec, (swapment-vec.begin()), (a - vec.begin()))){
+
+		vecInsert(vec, swapment, a);
+
 		for (vector<Point>::iterator k = vec.begin(); (k + 1) != vec.end() && k != a; ++k) {
 			if (doesIntersect(*k, *(k + 1), *swapment, *a)) { closestPoint(a, vec); break; }
 		}
