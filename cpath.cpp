@@ -1,4 +1,4 @@
-//het_gokcandemiralp 10-08-21
+//het_gokcandemiralp 17-08-21
 #include "cpath.h"
 
 bool onSegment(Point p, Point q, Point r){
@@ -56,32 +56,18 @@ void leftMostPoint(vector<Point> &vec) {
 }
 
 bool distanceCompare(vector<Point> vec, int swapment, int n) {
-	Point a , b, tempPoint1, tempPoint2;
-	int i;
-	int size = vec.size();
-	float ans1 = 0;
-	float ans2 = 0;
+	Point e, f, g, h;
+	int ans1 = 0;
+	int ans2 = 0;
+	e = vec[swapment];
+	f = vec[n];
+	g = vec[(swapment + 1)];
+	h = vec[(n-1)];
 
-	for (a = Point(0, 0), i = 0; i != size; ++i) { //testing without the intersection correction
-		b = vec[i];
-		ans1 += sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)));
-		a = b;
-		if (i == n) { break; }
-	}
-	for (tempPoint1 = vec[n], i = (swapment + 1); i != size; ++i) { //doing the intersection correction
-		tempPoint2 = vec[i];
-		vec[i] = tempPoint1;
-		tempPoint1 = tempPoint2;
-		if (i == n) { break; }
-	}
-	for (a = Point(0, 0), i = 0; i != size; ++i) { //testing with the intersection correction
-		b = vec[i];
-		ans2 += sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)));
-		a = b;
-		if (i == n) { break; }
-	}
+	ans1= ((((e.x - f.x) * (e.x - f.x)) + ((e.y - f.y) * (e.y - f.y))) + (((f.x - g.x) * (f.x - g.x)) + ((f.y - g.y) * (f.y - g.y))));
+	ans2= ((((e.x - g.x) * (e.x - g.x)) + ((e.y - g.y) * (e.y - g.y))) + (((h.x - f.x) * (h.x - f.x)) + ((h.y - f.y) * (h.y - f.y))));
 
-	return (ans2 < ans1);
+	return (ans1 < ans2);
 }
 
 void vecInsert(vector<Point>& vec, vector<Point>::iterator swapment, vector<Point>::iterator a) {
