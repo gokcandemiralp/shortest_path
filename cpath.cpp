@@ -90,16 +90,7 @@ void closestPoint(vector<Point>::iterator a, vector<Point>& vec) {
 		if (smallest > temp) { smallest = temp; swapment = i; }
 	}
 	if((swapment + 1)!=a && distanceCompare(vec, (swapment-vec.begin()), (a - vec.begin()))){
-
 		vecInsert(vec, swapment, a);
-
-		for (vector<Point>::iterator k = vec.begin(); (k + 1) != vec.end() && k != a; ++k) {
-			if (doesIntersect(*k, *(k + 1), *swapment, *a)) { closestPoint(a, vec); break; }
-		}
-
-		for (vector<Point>::iterator k = vec.begin(); a != vec.end() && (a + 1) != vec.end() && k != a; ++k) {
-			if (doesIntersect(*k, *(k + 1), *a, *(a + 1))) { closestPoint((a + 1), vec); break; }
-		}
 	}
 }
 
